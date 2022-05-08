@@ -1,4 +1,4 @@
-Tetris game designed to run on a XAMPP server
+Javascript Tetris game designed for an apache web server, adapted to run on a local server
 
 Controls:
 
@@ -18,4 +18,3 @@ At 100 points it is set to 350
 At 200 points it is set to 275ms
 At 300 points it is set to 200ms
 at 400 points it is set to 150ms
-
