@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+
     const grid = document.querySelector('.grid')
     let squares = Array.from(document.querySelectorAll('.grid div'))
     const width = 10
@@ -6,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const startButton = document.querySelector('#start-button')
     const pausePlayBtn = document.querySelector('#play-pause')
     const restart = document.querySelector('#restart')
+    var soundtrack = new Audio('audio/soundtrack.mp3');
     
     let nextRandom = 0
     let timerID
@@ -18,50 +20,49 @@ document.addEventListener('DOMContentLoaded', () => {
         'blue', 
         'magenta'
     ]
-    var soundtrack = new Audio('audio/soundtrack.mp3');
 
     // The Tetrominoes
-    const lTetromino = [
+    const tetrominoL = [
     [1, width + 1, width * 2 + 1, 2],
     [width, width + 1, width + 2, width * 2 + 2],
     [1, width + 1, width * 2 + 1, width * 2],
     [width, width * 2, width * 2 + 1, width * 2 + 2]
     ]
-    const zTetromino = [
+    const tetrominoZ = [
         [0, width, width + 1, width * 2 + 1],
         [width + 1, width + 2, width * 2, width * 2 + 1],
         [0, width, width + 1, width * 2 + 1],
         [width + 1, width + 2, width * 2, width * 2 + 1]
       ]
-    const sTetromino = [
+    const tetrominoS = [
         [1, width, width + 1, 2*width],
         [0, 1, width + 1 , width+  2],
         [1, width, width + 1, 2*width],
         [0, 1, width + 1 , width+  2],
     ]
-      const tTetromino = [
+      const tetrominoT = [
         [1, width, width + 1, width + 2],
         [1, width + 1, width + 2, width * 2 + 1],
         [width, width + 1, width + 2, width * 2 + 1],
         [1, width, width + 1, width * 2 + 1]
       ]
-      const oTetromino = [
+      const tetrominoO = [
         [0, 1, width, width + 1],
         [0, 1, width, width + 1],
         [0, 1, width, width + 1],
         [0, 1, width, width + 1]
       ]
-      const iTetromino = [
+      const tetrominoI = [
         [1, width + 1, width * 2 + 1, width * 3 + 1],
         [width, width + 1, width + 2, width + 3],
         [1, width + 1, width * 2 + 1, width * 3 + 1],
         [width, width + 1, width + 2, width + 3]
       ]
 
-    const theTetrominoes = [lTetromino, zTetromino, tTetromino, oTetromino, iTetromino, sTetromino]
+    const theTetrominoes = [tetrominoL, tetrominoZ, tetrominoT, tetrominoO, tetrominoI, tetrominoS]
     
     // randomizing the tetromino that spawns
-    let random = Math.floor(Math.random()*theTetrominoes.length)
+    let random = Math.floor(Math.random() * theTetrominoes.length)
 
     let currentPosition = 4
     let currentRotation = 0
@@ -84,30 +85,71 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // assign functions to keyCodes
-    function control(e) {
-        if(e.keyCode === 37){
-            moveLeft()
-        } else if (e.keyCode === 38) {
-            rotate()
-        } else if (e.keyCode === 39) {
-            moveRight()
-        } else if (e.keyCode === 40){
-            moveDown()
-        } else if (e.keyCode === 32){
-            instaDown()
-        }
-    }
     document.addEventListener('keydown', control)
-
-    // the function to move the tetromino down
-    function moveDown() {
-        undraw()
-        currentPosition += width
-        draw()
-        freeze()
+    
+    /**
+     * Function that calls tetris-related functions based on pressed key
+     */
+    function control(key) {
+        if(key.keyCode === 37){
+            moveLeft()
+        } else if (key.keyCode === 39) {
+            moveRight()
+        } else if (key.keyCode === 40){
+            moveDown()
+        } else if (key.keyCode === 32){
+            instaDrop()
+        } else if (key.keyCode === 38) {
+            rotate()
+        } 
     }
+    
+    // Stop the browser from scorlling when key is pressed
+    window.addEventListener("keydown", function(e) {
+        if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) {
+            e.preventDefault();
+        }
+    }, false)
+    
+    /**
+     * Move the tetromino to the right unless it's at the right edge
+    */
+   function moveLeft() {
+       undraw()
+       isAtLeftEdge = currentBlock.some(index => (currentPosition + index) % width == 0)
+       
+       if(!isAtLeftEdge) currentPosition -=1
+       if(currentBlock.some(index => squares[currentPosition + index].classList.contains('taken'))){
+           currentPosition +=1
+        }
+        draw()
+    }
+    
+    /**
+     * Move the tetromino to the right unless it's at the right edge
+    */
+   function moveRight() {
+       undraw()
+       isAtRightEdge = currentBlock.some(index => (currentPosition + index) % width === width-1)
+       if (!isAtRightEdge) currentPosition +=1
+       if (currentBlock.some(index => squares[currentPosition + index].classList.contains('taken'))){
+           currentPosition -=1
+        }
+        draw()
+    }
+    
+        /**
+         * Moves the tetromino down
+         */
+        function moveDown() {
+            undraw()
+            currentPosition += width
+            draw()
+            freeze()
+        }
+
     // function that instantly makes the tetromino go down to the bottom/to other blocks 
-    function instaDown() {
+    function instaDrop() {
         undraw()
         downScore = score
         while (!currentBlock.some(index => squares[currentPosition + index + width].classList.contains('taken'))){
@@ -139,54 +181,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    /**
+     * Changes the interval of the tetromino drop based on the score
+     */
     function makeFaster() {
-        if (score > 400){
+        if (score > 500){
             clearInterval(timerID)
             timerID = setInterval(moveDown, 150)
-        } else if (score > 300) {
+        } else if (score > 400) {
             clearInterval(timerID)
             timerID = setInterval(moveDown, 200)
-        }else if (score > 200) {
+        }else if (score > 300) {
             clearInterval(timerID)
             timerID = setInterval(moveDown, 275)
-        }else if (score > 100) {
+        }else if (score > 200) {
             clearInterval(timerID)
             timerID = setInterval(moveDown, 350)
-        }else if (score > 50){
+        }else if (score > 100){
             clearInterval(timerID)
             timerID = setInterval(moveDown, 500)
         }
 
     }
 
-    // move the the tetromino sideways unless its at the left edge
-    function moveLeft() {
-        undraw()
-        const isAtLeftEdge = currentBlock.some(index => (currentPosition + index) % width == 0)
-
-        if(!isAtLeftEdge) currentPosition -=1
-        if(currentBlock.some(index => squares[currentPosition + index].classList.contains('taken'))){
-            currentPosition +=1
-        }
-        draw()
-    }
-
-    // move the tetromino right unless it is at the right edge
-    function moveRight() {
-        undraw()
-        const isAtRightEdge = currentBlock.some(index => (currentPosition + index) % width === width-1)
-        if (!isAtRightEdge) currentPosition +=1
-        if (currentBlock.some(index => squares[currentPosition + index].classList.contains('taken'))){
-            currentPosition -=1
-        }
-        draw()
-    }
 
 
     // rotating the tetromino
     function rotate() {
-        const isAtLeftEdge = currentBlock.some(index => (currentPosition + index) % width == 0)
-        const isAtRightEdge = currentBlock.some(index => (currentPosition + index) % width === width-1)
+        isAtLeftEdge = currentBlock.some(index => (currentPosition + index) % width == 0)
+        isAtRightEdge = currentBlock.some(index => (currentPosition + index) % width === width-1)
         if (isAtLeftEdge || isAtRightEdge) {
             return
         }
@@ -227,25 +250,14 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     }
 
-    let btnval = 0
 
-    // adding functionality to the start/pause button
-    startButton.addEventListener('click', () => {
-        soundtrack.play()
-        draw()
-        timerID = setInterval(moveDown, 800)
-        nextRandom = Math.floor(Math.random()*theTetrominoes.length)
-        // dont update the mini grid when button is clicked unless its the game starting
-        if (btnval == 0) {
-            displayShape()
-            btnval+=1
-        }
-        pausePlayBtn.style.visibility = "visible";
-      })
 
+    function pausePlay(){
+        
+    }
     //   functionality to the play/pause button
       pausePlayBtn.addEventListener('click', () => {
-        togglePause()
+        audioPausePlay()
         if (timerID) {
             clearInterval(timerID)
             timerID = null
@@ -259,7 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
       })
 
     //   function that determines if audio is paused or playing, and toggles between those modes
-      function togglePause() {
+      function audioPausePlay() {
         if(soundtrack.paused && soundtrack.currentTime > 0 && !soundtrack.ended) {
            soundtrack.play();
         } else {
@@ -311,8 +323,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isScoreSubmitted){
             return
         }
-
-        isScoreSubmitted = true;
         
         fetch('/tetris.php',
         {
@@ -329,14 +339,34 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(()=>{
             addToLeaderboard()
         })
+        
+        isScoreSubmitted = true;
     }
 
-    // stop the browser from scolling down
-    window.addEventListener("keydown", function(e) {
-        if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) {
-            e.preventDefault();
-        }
-    }, false)
 
+    /**
+     * 0 == not started, 1 == started
+     */
+    let gameStarted = 0
+
+    function startGame() {
+        soundtrack.play()
+        draw()
+        timerID = setInterval(moveDown, 800)
+        nextRandom = Math.floor(Math.random()*theTetrominoes.length)
+        // dont update the mini grid when button is clicked unless its the game starting
+        if (gameStarted == 0) {
+            displayShape()
+            gameStarted = 1
+        }
+        pausePlayBtn.style.visibility = "visible"
+        startButton.style.visibility = "hidden"
+    }
+
+    // adding functionality to the start/pause button
+    startButton.addEventListener('click', () => {
+        console.log("start button pressed");
+        startGame()
+    })
 
 })
