@@ -1,0 +1,4 @@
+- comments in app.js
+- move functions shouldnt move when game paused/not started
+- base.php into *.php
+- html restructuring (headers)
