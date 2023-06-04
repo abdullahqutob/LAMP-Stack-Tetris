@@ -1,4 +1,7 @@
 - comments in app.js
 - move functions shouldnt move when game paused/not started
-- base.php into *.php
+- base.php into *.php <!-- if you can even get it to work with xampp -->
 - html restructuring (headers)
+- game start button in middle of screen
+- move side display to be top aligned with main game grid
+- sound options (below side-display)
