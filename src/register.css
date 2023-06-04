@@ -1,0 +1,105 @@
+/* 
+
+
+Register Page
+
+
+*/
+#registerForm {
+    width: 300px;
+    height: 600px;
+    border-radius: 12px;
+    position: absolute;
+    text-align: center;
+    align-items: center;
+    align-content: center;
+    background-color: #c7c7c7;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    box-shadow: 5px 5px rgb(100, 100, 100);
+    font-size: 14px;
+}
+
+#registerForm h1 {
+    font-family: Verdana;
+    text-shadow: 1px 2px gray;
+}
+
+#formInputs br {
+    display: block;
+    margin: 10px 0;
+}
+
+input[type="text"],
+input[type="password"] {
+    border: none;
+    appearance: none;
+    background: #f2f2f2;
+    padding: 12px;
+    border-radius: 3px;
+    width: 200px;
+    box-shadow: 2px 2px darkgrey;
+    font-size: 14px;
+}
+
+input[type="radio"] {
+    width: 10px;
+    transform: scale(1.5);
+    margin-left: 15px;
+}
+
+
+#formInputs a {
+    text-decoration: underline;
+    font-size: 18px;
+    color: rgb(60, 95, 208);
+}
+
+
+input:focus::placeholder {
+    color: #222;
+    transition: color 0.3 ease;
+}
+
+
+#loginForm {
+    width: 300px;
+    height: 320px;
+    border-radius: 12px;
+    position: absolute;
+    text-align: center;
+    align-items: center;
+    align-content: center;
+    background-color: #c7c7c7;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    box-shadow: 5px 5px rgb(100, 100, 100);
+    font-size: 14px;
+}
+
+#loginForm h1 {
+    font-family: Verdana;
+    text-shadow: 2px 1px gray;
+}
+
+#loginForm p {
+    font-size: 16px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+#loginInputs a {
+    text-decoration: underline;
+    font-size: 16px;
+    color: rgb(60, 95, 208);
+}
+
+label {
+    font-size: 16px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}

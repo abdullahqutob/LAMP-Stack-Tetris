@@ -1,0 +1,164 @@
+/* 
+
+
+Tetris
+
+
+*/
+
+#start-button {
+    background-color: red;
+    text-shadow: 2px 2px black;
+}
+
+#start-button:active {
+    color: white;
+    background-color: black;
+}
+
+#start-button:focus {
+    outline: 5px solid white;
+}
+
+button {
+    padding: 20px 25px;
+    background-color: rgb(156, 9, 175);
+    border: none;
+    border-radius: 50px;
+    font-weight: 550;
+    cursor: pointer;
+    color: white;
+}
+
+button:hover {
+    background-color: rgb(139, 102, 173);
+}
+
+button:active {
+    background-color: aqua;
+    color: black;
+}
+
+button:focus {
+    outline: 5px solid aqua;
+}
+
+#buttonContainer {
+    margin-top: 15px;
+    /* position:fixed; */
+}
+
+#play-pause {
+    visibility: hidden;
+    position: relative;
+}
+
+#restart {
+    /* display: none; */
+    display: inline;
+    /* visibility: hidden; */
+    /* margin-top: 250px; */
+}
+
+#controls {
+    position: relative;
+    top: 3px;
+}
+
+p {
+    line-height: 12px;
+    font-weight: 900;
+}
+
+#mid-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.side-display {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    margin-top: 1rem;
+    width: 270px;
+    height: 500px;
+    background: #f0f0f0;
+    background-image: linear-gradient(#d0d0d0, #f0f0f0);
+    border-radius: 5px;
+    box-shadow: 5px 5px grey;
+    /* box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) inset, 0 1px 0 rgb(0, 0, 0); */
+    color: black;
+}
+
+
+/* contains the game */
+.container {
+    display: flex;
+    width: auto;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    padding-top: 20px;
+}
+
+/* main tetris grid */
+.grid {
+    width: 300px;
+    height: 600px;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #c7c7c7;
+    box-shadow: 5px 5px grey;
+}
+
+.grid div {
+    height: 30px;
+    width: 30px;
+}
+
+#grid-pic {
+    position: absolute;
+}
+
+.grid1 {
+    width: 345px;
+    pointer-events: none;
+}
+
+
+
+/* next up grid */
+.mini-grid {
+    margin-left: 45px;
+    width: 180px;
+    height: 180px;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #c7c7c7;
+    z-index: 0;
+}
+
+.mini-grid div {
+    height: 30px;
+    width: 30px;
+}
+
+#mini-grid-pic {
+    position: absolute;
+    margin-left: 45px;
+    z-index: 1;
+    height: 180px;
+    width: 180px;
+}
+
+.grid2 {
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 0;
+    pointer-events: none;
+}

@@ -1,0 +1,35 @@
+/* 
+
+
+Index page
+
+
+*/
+
+#indexWelcome {
+    width: 300px;
+    height: 0;
+    border-radius: 12px;
+    position: absolute;
+    text-align: center;
+    align-items: center;
+    align-content: center;
+    background-color: #c7c7c7;
+    bottom: 50%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    text-shadow: 2px 2px black;
+    box-shadow: 5px black;
+
+}
+
+#indexWelcome h1 {
+    color: white;
+}
+
+#indexPlay {
+    border-radius: 5px;
+    padding: 8px 16px;
+    background-color: red;
+}

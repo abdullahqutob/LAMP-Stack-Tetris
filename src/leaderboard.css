@@ -1,0 +1,72 @@
+/*
+
+
+Leaderboard page
+
+
+*/
+table {
+
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    background-color: #c7c7c7;
+    box-sizing: border-box;
+    box-shadow: 5px 5px grey;
+}
+
+td {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 8px;
+}
+
+th {
+    text-align: center;
+    padding: 8px;
+    background-color: blue;
+}
+
+
+#table {
+    width: 500px;
+    border-radius: 12px;
+    position: absolute;
+    text-align: center;
+    align-items: center;
+    align-content: center;
+    background-color: #c7c7c7;
+    bottom: 40%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    font-size: 14px;
+    border-spacing: 2px;
+
+}
+
+
+#lbNoData {
+    font-family: Arial;
+    width: 500px;
+    height: 100px;
+    border-radius: 12px;
+    position: absolute;
+    text-align: center;
+    align-items: center;
+    align-content: center;
+    background-color: #c7c7c7;
+    bottom: 40%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    box-shadow: 5px 5px rgb(100 100 100);
+    font-size: 14px;
+
+}
+
+#lbNoData a {
+    text-decoration: underline;
+    font-size: 18px;
+    color: rgb(60, 95, 208);
+}
