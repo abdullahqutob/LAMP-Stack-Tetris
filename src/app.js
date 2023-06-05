@@ -84,7 +84,17 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     }
 
-    // assign functions to keyCodes
+    function isAtLeftEdge() {
+        
+    }
+
+    function isAtRightEdge() {
+
+    }
+
+
+
+    // Call the control() function on a key press
     document.addEventListener('keydown', control)
     
     /**
@@ -148,21 +158,26 @@ document.addEventListener('DOMContentLoaded', () => {
             freeze()
         }
 
-    // function that instantly makes the tetromino go down to the bottom/to other blocks 
+    /**
+     * Function that repeatedly calls the moveDown() function until the current tetromino 
+     * reaches the bottom, by checking if the score increases
+     */
     function instaDrop() {
         undraw()
-        downScore = score
+        initialScore = score
         while (!currentBlock.some(index => squares[currentPosition + index + width].classList.contains('taken'))){
             moveDown()
             // check to see if the score has gone up | if a new tetromino is spawned in
-            if (downScore < score) {
+            if (initialScore < score) {
                 freeze()
                 break
             }
         }
     }
-
-    // stop the tetromino 
+ 
+    /**
+     * Stop the current tetromino
+     */
     function freeze() {
         if(currentBlock.some(index => squares[currentPosition + index + width].classList.contains('taken'))) {
             currentBlock.forEach(index => squares[currentPosition + index].classList.add('taken'))
@@ -205,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-
+    //TODO: better comments
     // rotating the tetromino
     function rotate() {
         isAtLeftEdge = currentBlock.some(index => (currentPosition + index) % width == 0)
@@ -228,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const displayWidth = 6
     const displayIndex = 7
 
-    // the next up tetromino
+    // the up next tetromino
     const upNextTetrominoes = [
     [1, displayWidth + 1, displayWidth * 2 + 1, 2], // L tetromino
     [1, displayWidth + 1, displayWidth + 2, displayWidth * 2 + 2], // Z tetromino
@@ -238,6 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
     [2, displayWidth + 1, displayWidth + 2, 2*displayWidth+ 1], // S tetromino
     ]
  
+    //TODO: better comments
     function displayShape() {
         // remove previous tetromino
         displaySquares.forEach(square => {
@@ -251,10 +267,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-
+    //TODO: make pause / play into a function
+    /**
+     * Function that toggles whether the game is playing
+     */
     function pausePlay(){
         
     }
+
     //   functionality to the play/pause button
       pausePlayBtn.addEventListener('click', () => {
         audioPausePlay()
@@ -270,7 +290,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       })
 
-    //   function that determines if audio is paused or playing, and toggles between those modes
+    
+
+    /**
+     * Function that checks if the sountrack is paused/playing, and toggles between the modes
+     */
       function audioPausePlay() {
         if(soundtrack.paused && soundtrack.currentTime > 0 && !soundtrack.ended) {
            soundtrack.play();
@@ -280,25 +304,37 @@ document.addEventListener('DOMContentLoaded', () => {
      }
 
     // add score
+    /**
+     * Function that loops through every line, and checks if all the blocks
+     * have 'taken', and if so, wipes the 
+     */
     function addScore(){
         for (let i = 0; i < 199; i += width) {
             const row = [i, i+1, i+2, i+3, i+4, i+5, i+6, i+7, i+8, i+9]
             if(row.every(index => squares[index].classList.contains('taken'))) {
                 score +=10
                 scoreDisplay.innerHTML = score
-                row.forEach(index => {
+                row.forEach(index => { // clears the row
                     squares[index].classList.remove('taken')
                     squares[index].classList.remove('tetromino')
                     squares[index].style.backgroundColor = ''
                 })
+                //TODO: what do the next lines do?????
                 const squaresRemoved = squares.splice(i, width)
                 squares = squaresRemoved.concat(squares)
                 squares.forEach(cell => grid.appendChild(cell))
             }
         }
     }
+    
+    // index => squares[currentPosition + index + width] // of all the squares, is the block below taken?
+    //     .classList.contains('taken') // is it taken
 
-    // game over function
+    
+    /**
+     * Function that ends the game. Resets game timer, pauses soundtrack, displays the restart game button,
+     * and adds the score to the leaderboard
+     */
     function gameOver() {
         if(currentBlock.some(index => squares[currentPosition + index + width].classList.contains('taken'))) {
             scoreDisplay.innerHTML = score 
